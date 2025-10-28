@@ -1,45 +1,367 @@
-.App {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  text-align: center;
-  height: 100%;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.explainx-popup {
+  width: 420px;
+  min-height: 500px;
+  max-height: 600px;
+  background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.explainx-popup-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px 20px;
+  color: white;
+}
+
+.explainx-popup-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.explainx-popup-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.explainx-popup-logo svg {
+  width: 24px;
+  height: 24px;
+}
+
+.explainx-popup-logo h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.explainx-popup-subtitle {
+  font-size: 14px;
+  opacity: 0.9;
+  margin: 0;
+  padding-left: 36px;
+}
+
+/* Body */
+.explainx-popup-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Search Section */
+.explainx-search-section {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.explainx-search-bar {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.explainx-search-bar:focus-within {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.explainx-search-bar svg {
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.explainx-search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #111827;
+  background: transparent;
+}
+
+.explainx-search-bar input::placeholder {
+  color: #9ca3af;
+}
+
+.explainx-clear-all-btn {
   padding: 10px;
-  background-color: #282c34;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.App-logo {
-  height: 30vmin;
-  pointer-events: none;
+.explainx-clear-all-btn:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Summaries List */
+.explainx-summaries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.App-header {
-  height: 100%;
+.explainx-summary-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.explainx-summary-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+  transform: translateY(-1px);
+}
+
+.explainx-summary-card.selected {
+  border-color: #667eea;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+}
+
+.explainx-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.explainx-summary-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+  flex: 1;
+  margin: 0;
+}
+
+.explainx-summary-time {
+  font-size: 12px;
+  color: #9ca3af;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.explainx-summary-preview {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Expanded Summary */
+.explainx-summary-expanded {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.explainx-summary-url {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #6b7280;
+  word-break: break-all;
+}
+
+.explainx-summary-url svg {
+  flex-shrink: 0;
+}
+
+.explainx-summary-content {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #374151;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* Custom scrollbar */
+.explainx-summary-content::-webkit-scrollbar,
+.explainx-popup-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.explainx-summary-content::-webkit-scrollbar-track,
+.explainx-popup-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.explainx-summary-content::-webkit-scrollbar-thumb,
+.explainx-popup-body::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+.explainx-summary-content::-webkit-scrollbar-thumb:hover,
+.explainx-popup-body::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+.explainx-summary-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.explainx-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-family: inherit;
+}
+
+.explainx-action-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.explainx-action-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.explainx-action-btn-danger {
+  background: white;
+  color: #dc2626;
+  border: 1px solid #fca5a5;
+}
+
+.explainx-action-btn-danger:hover {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+/* Empty State */
+.explainx-empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  gap: 12px;
 }
 
-.App-link {
-  color: #61dafb;
+.explainx-empty-state svg {
+  color: #d1d5db;
+  margin-bottom: 8px;
 }
 
-@keyframes App-logo-spin {
+.explainx-empty-state h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.explainx-empty-state p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Footer */
+.explainx-popup-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+  background: white;
+}
+
+.explainx-footer-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.explainx-footer-text svg {
+  color: #667eea;
+}
+
+/* Animations */
+@keyframes slideIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(10px);
   }
+
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.explainx-summary-card {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+  .explainx-popup {
+    width: 100vw;
   }
 }
