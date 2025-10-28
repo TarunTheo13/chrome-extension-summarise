@@ -5,15 +5,41 @@ const Popup = () => {
   const [summaries, setSummaries] = useState([]);
   const [selectedSummary, setSelectedSummary] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showSettings, setShowSettings] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+  const [apiKeyInput, setApiKeyInput] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
     loadSummaries();
+    loadApiKey();
   }, []);
 
   const loadSummaries = () => {
     chrome.storage.local.get(['summaries'], (result) => {
       setSummaries(result.summaries || []);
     });
+  };
+
+  const loadApiKey = () => {
+    chrome.storage.local.get(['openaiApiKey'], (result) => {
+      const key = result.openaiApiKey || '';
+      setApiKey(key);
+      setApiKeyInput(key);
+    });
+  };
+
+  const saveApiKey = () => {
+    chrome.runtime.sendMessage(
+      { action: 'saveApiKey', apiKey: apiKeyInput },
+      (response) => {
+        if (response.success) {
+          setApiKey(apiKeyInput);
+          setSaveMessage('API key saved successfully!');
+          setTimeout(() => setSaveMessage(''), 3000);
+        }
+      }
+    );
   };
 
   const deleteSummary = (id) => {
@@ -54,11 +80,147 @@ const Popup = () => {
     chrome.tabs.create({ url });
   };
 
+  const maskApiKey = (key) => {
+    if (!key || key.length < 8) return '';
+    return `${key.substring(0, 7)}...${key.substring(key.length - 4)}`;
+  };
+
   const filteredSummaries = summaries.filter(
     (summary) =>
       summary.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       summary.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (showSettings) {
+    return (
+      <div className="explainx-popup">
+        <div className="explainx-popup-header">
+          <div className="explainx-popup-header-content">
+            <div className="explainx-popup-logo">
+              <button
+                className="explainx-back-btn"
+                onClick={() => setShowSettings(false)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v6m0 6v6m6-9h-6m-6 0H0"></path>
+                <path d="M19.4 15a9 9 0 1 1-3.4-11.2"></path>
+              </svg>
+              <h1>Settings</h1>
+            </div>
+            <p className="explainx-popup-subtitle">Configure AI settings</p>
+          </div>
+        </div>
+
+        <div className="explainx-popup-body">
+          <div className="explainx-settings-section">
+            <h3>OpenAI API Key</h3>
+            <p className="explainx-settings-description">
+              Enter your OpenAI API key to enable AI-powered summaries. Get your
+              key from{' '}
+              <a
+                href="https://platform.openai.com/api-keys"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                OpenAI Dashboard
+              </a>
+              .
+            </p>
+
+            <div className="explainx-api-key-input">
+              <input
+                type="password"
+                placeholder="sk-..."
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+              />
+              <button
+                className="explainx-btn explainx-btn-primary"
+                onClick={saveApiKey}
+                disabled={!apiKeyInput.trim()}
+              >
+                Save
+              </button>
+            </div>
+
+            {saveMessage && (
+              <div className="explainx-save-message">{saveMessage}</div>
+            )}
+
+            {apiKey && (
+              <div className="explainx-api-key-status">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>API Key: {maskApiKey(apiKey)}</span>
+              </div>
+            )}
+
+            <div className="explainx-settings-info">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <div>
+                <strong>Using GPT-4o-mini model</strong>
+                <p>
+                  Your API key is stored securely in your browser and never sent
+                  anywhere except to OpenAI's servers.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="explainx-popup">
@@ -79,12 +241,63 @@ const Popup = () => {
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
             </svg>
             <h1>Explainx</h1>
+            <button
+              className="explainx-settings-icon"
+              onClick={() => setShowSettings(true)}
+              title="Settings"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v6m0 6v6"></path>
+                <path d="M19.4 15a9 9 0 1 1-3.4-11.2"></path>
+              </svg>
+            </button>
           </div>
-          <p className="explainx-popup-subtitle">Your saved summaries</p>
+          <p className="explainx-popup-subtitle">
+            {apiKey ? '✨ AI-powered summaries' : 'Your saved summaries'}
+          </p>
         </div>
       </div>
 
       <div className="explainx-popup-body">
+        {!apiKey && (
+          <div className="explainx-api-key-banner">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+            <div>
+              <strong>Enable AI Summaries</strong>
+              <p>Add your OpenAI API key to unlock AI-powered summaries</p>
+            </div>
+            <button
+              className="explainx-btn-small"
+              onClick={() => setShowSettings(true)}
+            >
+              Setup
+            </button>
+          </div>
+        )}
+
         {summaries.length > 0 ? (
           <>
             <div className="explainx-search-section">
@@ -147,6 +360,9 @@ const Popup = () => {
                   >
                     <div className="explainx-summary-header">
                       <h3 className="explainx-summary-title">
+                        {summary.isAiGenerated && (
+                          <span className="explainx-ai-indicator">✨</span>
+                        )}
                         {summary.title}
                       </h3>
                       <span className="explainx-summary-time">

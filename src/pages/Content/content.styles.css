@@ -113,6 +113,19 @@
   color: #111827;
 }
 
+.explainx-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
 .explainx-close-btn {
   width: 32px;
   height: 32px;
@@ -314,6 +327,72 @@
   }
 }
 
+/* Loading state */
+.explainx-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+}
+
+.explainx-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: explainx-spin 1s linear infinite;
+}
+
+@keyframes explainx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.explainx-loading p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.explainx-loading small {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* Error state */
+.explainx-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+  text-align: center;
+}
+
+.explainx-error svg {
+  color: #ef4444;
+}
+
+.explainx-error h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.explainx-error p {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  max-width: 400px;
+}
+
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   #explainx-dialog {
@@ -378,5 +457,26 @@
     background: #1f2937;
     color: #f9fafb;
     border-color: #374151;
+  }
+
+  .explainx-loading p {
+    color: #f9fafb;
+  }
+
+  .explainx-loading small {
+    color: #9ca3af;
+  }
+
+  .explainx-spinner {
+    border-color: #374151;
+    border-top-color: #667eea;
+  }
+
+  .explainx-error h3 {
+    color: #f9fafb;
+  }
+
+  .explainx-error p {
+    color: #9ca3af;
   }
 }

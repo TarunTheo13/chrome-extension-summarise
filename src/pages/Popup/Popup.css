@@ -15,7 +15,7 @@ body {
 }
 
 .explainx-popup {
-  width: 420px;
+  width: 560px;
   min-height: 500px;
   max-height: 600px;
   background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
@@ -52,6 +52,44 @@ body {
   font-size: 24px;
   font-weight: 700;
   margin: 0;
+  flex: 1;
+}
+
+.explainx-settings-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.explainx-settings-icon:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.explainx-back-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  margin-right: 8px;
+}
+
+.explainx-back-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .explainx-popup-subtitle {
@@ -357,6 +395,176 @@ body {
 
 .explainx-summary-card {
   animation: slideIn 0.3s ease-out;
+}
+
+/* API Key Banner */
+.explainx-api-key-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border: 1px solid rgba(102, 126, 234, 0.2);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.explainx-api-key-banner svg {
+  color: #667eea;
+  flex-shrink: 0;
+}
+
+.explainx-api-key-banner div {
+  flex: 1;
+}
+
+.explainx-api-key-banner strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.explainx-api-key-banner p {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.explainx-btn-small {
+  padding: 6px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.explainx-btn-small:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* AI Indicator */
+.explainx-ai-indicator {
+  margin-right: 6px;
+}
+
+/* Settings Page */
+.explainx-settings-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.explainx-settings-section h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.explainx-settings-description {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.explainx-settings-description a {
+  color: #667eea;
+  text-decoration: none;
+}
+
+.explainx-settings-description a:hover {
+  text-decoration: underline;
+}
+
+.explainx-api-key-input {
+  display: flex;
+  gap: 8px;
+}
+
+.explainx-api-key-input input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #111827;
+  font-family: 'Courier New', monospace;
+}
+
+.explainx-api-key-input input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.explainx-api-key-input button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.explainx-save-message {
+  padding: 10px 14px;
+  background: #d1fae5;
+  border: 1px solid #6ee7b7;
+  border-radius: 8px;
+  color: #065f46;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.explainx-api-key-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #166534;
+}
+
+.explainx-api-key-status svg {
+  color: #22c55e;
+  flex-shrink: 0;
+}
+
+.explainx-settings-info {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+}
+
+.explainx-settings-info svg {
+  color: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.explainx-settings-info strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e40af;
+  margin-bottom: 4px;
+}
+
+.explainx-settings-info p {
+  margin: 0;
+  font-size: 13px;
+  color: #1e40af;
+  line-height: 1.5;
 }
 
 /* Responsive adjustments */
